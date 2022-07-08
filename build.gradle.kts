@@ -36,6 +36,10 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+tasks.named("build") {
+    dependsOn("cucumber")
+}
+
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
@@ -45,14 +49,13 @@ tasks.withType<KotlinCompile> {
 
 
 task("cucumber") {
-    dependsOn("assemble", "compileTestJava")
+    dependsOn("test")
+    mustRunAfter("test")
     doLast {
         javaexec {
             mainClass.set("io.cucumber.core.cli.Main")
             classpath = cucumberRuntime + sourceSets.main.get().output + sourceSets.test.get().output
-            // Change glue for your project package where the step definitions are.
-            // And where the feature files are.
-            args = listOf("--plugin", "pretty", "--glue", "com.example.feature", "src/test/resources")
+            args = listOf("--plugin", "pretty", "--glue", "io.tripled.features", "src/test/resources")
         }
     }
 }
