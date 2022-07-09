@@ -1,10 +1,10 @@
 package io.tripled.features.steps
 
-import io.cucumber.java.PendingException
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
 import io.kotest.matchers.shouldBe
+import io.tripled.poker.*
 
 
 class TableSteps {
@@ -24,13 +24,19 @@ class TableSteps {
 
     @Then("the game has not started yet")
     fun the_game_has_not_started_yet() {
-        // Write code here that turns the phrase above into concrete actions
-        throw PendingException()
+        table.isStarted shouldBe false
     }
 
     @Then("a person named {string} is present at the Table")
     fun a_person_named_is_present_at_the_table(personName: String) {
         table.isSeated(personName) shouldBe true
+    }
+
+    @Then("only a person named {string} is present at the Table")
+    fun only_a_person_named_is_present_at_the_table(personName: String) {
+        table.isSeated(personName) shouldBe true
+        table.isSeated("someone-else") shouldBe false
+        table.nrOfPlayers() shouldBe 1
     }
 
     @When("{string} deals the cards")
