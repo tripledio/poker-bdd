@@ -5,4 +5,3 @@ Feature: Play a game
     When "Kris" folds
     Then "Guido" wins
 
-

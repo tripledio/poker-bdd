@@ -18,7 +18,7 @@ class TableSteps {
 
     @When("a person named {string} joins the Table")
     fun a_person_named_joins_the_table(personName: String) {
-        table.addPerson(personName)
+        table.addPerson(PersonName(personName))
     }
 
 
@@ -29,13 +29,13 @@ class TableSteps {
 
     @Then("a person named {string} is present at the Table")
     fun a_person_named_is_present_at_the_table(personName: String) {
-        table.isSeated(personName) shouldBe true
+        table.isSeated(PersonName(personName)) shouldBe true
     }
 
     @Then("only a person named {string} is present at the Table")
     fun only_a_person_named_is_present_at_the_table(personName: String) {
-        table.isSeated(personName) shouldBe true
-        table.isSeated("someone-else") shouldBe false
+        table.isSeated(PersonName(personName)) shouldBe true
+        table.isSeated(PersonName("someone-else")) shouldBe false
         table.nrOfPlayers() shouldBe 1
     }
 
